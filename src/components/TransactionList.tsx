@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Transaction, CATEGORY_CONFIG, Category } from "@/lib/types";
 import { formatCurrency, formatDate, deleteTransaction } from "@/lib/storage";
-import { ArrowUpRight, ArrowDownLeft, Trash } from "@phosphor-icons/react";
+import { ArrowUpRight, ArrowDownLeft, Trash, PushPin } from "@phosphor-icons/react";
 
 interface TransactionListProps {
   transactions: Transaction[];
@@ -98,9 +98,16 @@ export default function TransactionList({
                     >
                       {config?.label || tx.category}
                     </span>
-                    <span className="text-[11px] text-[var(--muted)]">
-                      {formatDate(tx.date)}
-                    </span>
+                    {tx.isFixed ? (
+                      <span className="inline-flex items-center gap-0.5 text-[9px] uppercase tracking-[0.08em] font-medium text-[var(--muted)]">
+                        <PushPin size={9} weight="fill" />
+                        Fijo
+                      </span>
+                    ) : (
+                      <span className="text-[11px] text-[var(--muted)]">
+                        {formatDate(tx.date)}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <span
@@ -112,7 +119,7 @@ export default function TransactionList({
                   {isIncome ? "+" : "-"}
                   {formatCurrency(tx.amount)}
                 </span>
-                {showDelete && (
+                {showDelete && !tx.isFixed && (
                   <button
                     onClick={() => handleDelete(tx.id)}
                     className="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg hover:bg-[var(--expense-bg)] text-[var(--muted)] hover:text-[var(--expense)] transition-all duration-200 active:scale-[0.95]"

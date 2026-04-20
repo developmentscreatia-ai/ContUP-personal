@@ -25,6 +25,7 @@ export interface Transaction {
   description: string;
   date: string; // ISO string
   createdAt: string;
+  isFixed?: boolean;
 }
 
 export interface MonthlyStats {
@@ -63,6 +64,35 @@ export const CATEGORY_CONFIG: Record<
   travel: { label: "Viajes", color: "#0D9488", bgColor: "#CCFBF1" },
   other: { label: "Otros", color: "#787774", bgColor: "#F0F0EE" },
 };
+
+export interface FixedItem {
+  id: string;
+  type: TransactionType;
+  amount: number;
+  category: Category;
+  description: string;
+  active: boolean;
+}
+
+export interface ScannedReceipt {
+  id: string;
+  imageData: string; // base64 data URL
+  amount: number;
+  description: string;
+  category: Category;
+  date: string; // ISO string
+  createdAt: string;
+  addedAsTransaction: boolean;
+}
+
+export interface SavingsGoal {
+  id: string;
+  name: string;
+  targetAmount: number;
+  monthlySavings: number;
+  savedAmount: number;
+  createdAt: string;
+}
 
 export const INCOME_CATEGORIES: Category[] = [
   "salary",

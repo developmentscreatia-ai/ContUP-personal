@@ -3,15 +3,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  ChartPieSlice,
-  Plus,
+  CurrencyEur,
   ClockCounterClockwise,
   Wallet,
+  Camera,
+  Target,
+  ChartLine,
+  User,
 } from "@phosphor-icons/react";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Panel", icon: ChartPieSlice },
-  { href: "/add", label: "Nuevo", icon: Plus },
+  { href: "/", label: "Ingresos/Gastos", icon: CurrencyEur },
+  { href: "/personal", label: "Personal", icon: User },
+  { href: "/tickets", label: "Tickets", icon: Camera },
+  { href: "/metas", label: "Metas", icon: Target },
+  { href: "/prediccion", label: "Predicciones", icon: ChartLine },
   { href: "/history", label: "Historial", icon: ClockCounterClockwise },
 ];
 

@@ -10,9 +10,11 @@ import {
 import StatCard from "@/components/StatCard";
 import ExpenseChart from "@/components/ExpenseChart";
 import TransactionList from "@/components/TransactionList";
+import AddTransactionForm from "@/components/AddTransactionForm";
 import { getMonthlyStats, getMonthTransactions, formatCurrency } from "@/lib/storage";
 import { Transaction, MonthlyStats } from "@/lib/types";
 import Link from "next/link";
+import { Plus, X } from "@phosphor-icons/react";
 
 const MONTHS = [
   "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -25,6 +27,7 @@ export default function Dashboard() {
   const [month, setMonth] = useState(now.getMonth());
   const [stats, setStats] = useState<MonthlyStats | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [showForm, setShowForm] = useState(false);
 
   const refresh = useCallback(() => {
     setStats(getMonthlyStats(year, month));
@@ -64,7 +67,7 @@ export default function Dashboard() {
             Resumen financiero
           </p>
           <h1 className="text-3xl md:text-4xl font-semibold tracking-tighter leading-none text-[var(--foreground)]">
-            Panel
+            Ingresos/Gastos
           </h1>
         </div>
         <div className="flex items-center gap-3">
@@ -113,6 +116,31 @@ export default function Dashboard() {
           accentBg="var(--expense-bg)"
           delay={0.16}
         />
+      </div>
+
+      {/* Add Transaction Toggle */}
+      <div>
+        <button
+          onClick={() => setShowForm(!showForm)}
+          className={`
+            flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold
+            transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]
+            active:scale-[0.97]
+            ${
+              showForm
+                ? "bg-black/[0.06] text-[var(--foreground)]"
+                : "bg-[var(--foreground)] text-white hover:bg-[#444]"
+            }
+          `}
+        >
+          {showForm ? <X size={16} weight="bold" /> : <Plus size={16} weight="bold" />}
+          {showForm ? "Cerrar" : "Nuevo movimiento"}
+        </button>
+        {showForm && (
+          <div className="mt-4 p-5 rounded-[1.5rem] bg-white/60 backdrop-blur-xl border border-[var(--border)]">
+            <AddTransactionForm onSaved={() => { refresh(); setShowForm(false); }} />
+          </div>
+        )}
       </div>
 
       {/* Content Grid */}

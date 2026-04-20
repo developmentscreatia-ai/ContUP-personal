@@ -17,7 +17,7 @@ import {
 } from "@/lib/types";
 import { saveTransaction, generateId } from "@/lib/storage";
 
-export default function AddTransactionForm() {
+export default function AddTransactionForm({ onSaved }: { onSaved?: () => void } = {}) {
   const router = useRouter();
   const [type, setType] = useState<TransactionType>("expense");
   const [amount, setAmount] = useState("");
@@ -45,7 +45,15 @@ export default function AddTransactionForm() {
 
     setSaved(true);
     setTimeout(() => {
-      router.push("/");
+      if (onSaved) {
+        setSaved(false);
+        setAmount("");
+        setDescription("");
+        setDate(new Date().toISOString().slice(0, 10));
+        onSaved();
+      } else {
+        router.push("/");
+      }
     }, 600);
   }
 
