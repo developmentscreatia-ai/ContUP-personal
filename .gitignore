@@ -1,0 +1,8 @@
+# Ignore the app subdirectory as it's a separate git repository
+app/
+
+# macOS
+.DS_Store
+
+# Claude Code
+.claude/
